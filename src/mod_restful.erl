@@ -43,6 +43,7 @@
         process/2,
 
         % utilities
+        update_api_config/2,
         error_response/2,
         simple_response/2
     ]).
@@ -111,6 +112,10 @@ init([_Host, Opts]) ->
             {stop, no_api}
     end.
 
+update_api_config(Host, Opts) ->
+    Proc = gen_mod:get_module_proc(Host, mod_restful),
+    gen_server:call(Proc, {update_api_config, Opts}).
+	    
 get_api_mod(_Path, []) ->
     undefined;
 get_api_mod(Path, [Mod | API]) ->
@@ -119,8 +124,14 @@ get_api_mod(Path, [Mod | API]) ->
         _ -> get_api_mod(Path, API)
     end.
 
-handle_call({get_spec, Path}, _From, #state{api = API,
-                                            options = GlobalOpts} = State) ->
+handle_call({update_api_config, Opts}, _From, #state{api = GlobalAPI, options = _GlobalOpts} = State) ->
+    case lists:keysearch(api, 1, Opts) of
+        {value, {_, API}} when is_list(API) and (API /= []) ->
+	    NewState = State#state{api = GlobalAPI ++ API},
+            {reply, {ok, NewState}, NewState};
+	_ -> {reply, {ok, State}, State}
+    end;
+handle_call({get_spec, Path}, _From, #state{api = API, options = GlobalOpts} = State) ->
     case get_api_mod([hd(Path)], API) of
         undefined ->
             error_logger:warning_msg("API module for path ~p not found~n",

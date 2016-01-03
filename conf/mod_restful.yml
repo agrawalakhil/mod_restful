@@ -1,0 +1,24 @@
+listen:
+  - port: 5286
+    module: ejabberd_http
+    request_handlers:
+      "/api": mod_restful
+      "/web": mod_http_fileserver
+  
+modules:
+  mod_http_fileserver: 
+    docroot: "/root/.ejabberd-modules/mod_restful/priv/web"
+    accesslog: "/var/log/ejabberd/mod_restful_access.log"
+    directory_indices: ["index.html"]
+    
+  mod_restful:
+    api:
+      - path: ["admin"]
+        module: mod_restful_admin
+        params:
+          key: "secret"
+          allowed_commands: [status, registered_users, check_password, check_password_hash, user_sessions_info, check_account, set_room_affiliation, create_room, delete_room, srg_get_info, srg_create, srg_user_add]
+      - path: ["register"]
+        module: mod_restful_register
+        params:
+          key: "secret"

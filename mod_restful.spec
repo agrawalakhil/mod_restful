@@ -1,0 +1,5 @@
+author: "Akhil agrawal <akhil.agrawal@digikrit.com>"
+category: "api"
+summary: "Module exposing ejabberd functionality through REST"
+home: "https://github.com/agrawalakhil/mod_restful"
+url: "git@github.com:agrawalakhil/mod_restful.git"
