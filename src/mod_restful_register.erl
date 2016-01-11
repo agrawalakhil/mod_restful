@@ -31,7 +31,7 @@
 
 -behaviour(gen_restful_api).
 
--include_lib("ejabberd/include/ejabberd.hrl").
+-include("ejabberd.hrl").
 
 -include("include/mod_restful.hrl").
 

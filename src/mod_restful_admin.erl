@@ -62,9 +62,9 @@
 
 -behaviour(gen_restful_api).
 
--include_lib("ejabberd/include/ejabberd.hrl").
+-include("ejabberd.hrl").
 
--include("include/mod_restful.hrl").
+-include("mod_restful.hrl").
 
 process_rest(#rest_req{http_request = #request{method = 'POST'}, path = Path} = Req) ->
     case tl(Path) of

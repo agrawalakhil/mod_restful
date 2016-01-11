@@ -42,10 +42,10 @@
         params/2
     ]).
 
--include_lib("ejabberd/include/ejabberd.hrl").
--include_lib("ejabberd/include/jlib.hrl").
+-include("ejabberd.hrl").
+-include("jlib.hrl").
 
--include("include/mod_restful.hrl").
+-include("mod_restful.hrl").
 
 %
 % Behaviour
